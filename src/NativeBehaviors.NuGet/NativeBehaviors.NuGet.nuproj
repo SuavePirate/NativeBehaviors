@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\NativeBehaviors.Shared\NativeBehaviors.Shared.projitems" Label="Shared" Condition="Exists('..\NativeBehaviors.Shared\NativeBehaviors.Shared.projitems')" />
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{47DF4159-64C0-49AD-9807-5A4716932E85}</ProjectGuid>
+    <Description>Native view behaviors to reflect the Xamarin.Forms behaviors, but for native iOS and Android controls. Use within your ViewController and Activity/Fragment lifecycles to clean up event handling</Description>
+    <PackageId>NativeBehaviors</PackageId>
+    <PackageVersion>2018.01.24</PackageVersion>
+    <Authors>SuavePirate</Authors>
+    <DevelopmentDependency>false</DevelopmentDependency>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>NativeBehaviors</RootNamespace>
+    <UsePartialTypes>false</UsePartialTypes>
+    <AssemblyName>NativeBehaviors.NuGet</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <Owners>SuavePirate</Owners>
+    <PackageTags>Xamarin iOS Android Behavior</PackageTags>
+    <Title>Native Behaviors</Title>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <Summary>Native view behaviors to reflect the Xamarin.Forms behaviors, but for native iOS and Android controls</Summary>
+    <PackageProjectUrl>https://github.com/SuavePirate/NativeBehaviors</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/SuavePirate/NativeBehaviors/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://i0.wp.com/alexdunndev.files.wordpress.com/2017/02/cropped-xamagonsuavepirate.png?ssl=1&amp;w=226&amp;zoom=2</PackageIconUrl>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NativeBehaviors.Android\NativeBehaviors.Android.csproj">
+      <Project>{55F28F4B-9E30-4E94-924A-D64D1C15B2B8}</Project>
+      <Name>NativeBehaviors.Android</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NativeBehaviors.iOS\NativeBehaviors.iOS.csproj">
+      <Project>{8F6D6F6F-1EFC-4BE2-91B1-81C2D9B53459}</Project>
+      <Name>NativeBehaviors.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Packaging">
+      <Version>0.2.0</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.Common.targets" />
+  <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.targets')" />
+</Project>
