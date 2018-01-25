@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\NativeBehaviors.Shared\NativeBehaviors.Shared.projitems" Label="Shared" Condition="Exists('..\NativeBehaviors.Shared\NativeBehaviors.Shared.projitems')" />
   <Import Project="$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props" Condition="Exists('$(NuGetAuthoringPath)\NuGet.Packaging.Authoring.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,6 +43,10 @@
     <ProjectReference Include="..\NativeBehaviors.iOS\NativeBehaviors.iOS.csproj">
       <Project>{8F6D6F6F-1EFC-4BE2-91B1-81C2D9B53459}</Project>
       <Name>NativeBehaviors.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NativeBehaviors.Portable\NativeBehaviors.Portable.csproj">
+      <Project>{62CA6B1E-3AF1-460D-B01B-77B5FE4249D8}</Project>
+      <Name>NativeBehaviors.Portable</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

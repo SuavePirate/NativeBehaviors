@@ -6,13 +6,13 @@ namespace NativeBehaviors
     /// </summary>
     public abstract class NativeBehavior<T> where T : class
     {
-        internal void Attach(T bindable)
+        public void Attach(T bindable)
         {
             if (bindable != null)
                 OnAttachedTo(bindable);
         }
 
-        internal void Detach(T bindable)
+        public void Detach(T bindable)
         {
             if (bindable != null)
                 OnDetachingFrom(bindable);
