@@ -13,69 +13,83 @@ Install-Package NativeBehaviors
 
 These behaviors are meant to reflect the same use as Xamarin.Forms Behaviors, but require a little more work to manage the lifecycle of events since native views don't have a collection of Behaviors as a property.
 
-1. Create a custom Behavior on your native platform. This example will use an Android `EditText`
+1. Create a custom Behavior on your native platform. This example will use an iOS `UITextField`
 
-**EditTextMonthYearMaskBehavior.cs**
+**TextFieldPhoneMaskBehavior.cs**
 ``` csharp
 /// <summary>
-/// EditText month date mask behavior. Masks with a slash between characters
-/// Either MM/YY or MM/YYYY
+/// Text field phone mask behavior.
+/// Format of (###) ###-####
 /// </summary>
-public class EditTextMonthYearMaskBehavior : Behavior<EditText>
+public class TextFieldPhoneMaskBehavior : NativeBehavior<UITextField>
 {
-    public override string BehaviorName { get { return nameof(EditTextMonthYearMaskBehavior); } }
+    public override string BehaviorName => nameof(TextFieldPhoneMaskBehavior);
+
+    private string _previousText = string.Empty;
     /// <summary>
-    /// Attaches when the page is first created.
+    /// Attach text changed event
     /// </summary>
-    ///<param name="bindable">input entry</param>
-    protected override void OnAttachedTo(EditText bindable)
+    /// <param name="bindable">Bindable.</param>
+    protected override void OnAttachedTo(UITextField bindable)
     {
-        bindable.TextChanged += OnEntryTextChanged;
-        base.OnAttachedTo(bindable);
+        bindable.EditingChanged += Bindable_TextChanged;
     }
 
     /// <summary>
-    /// Detaches when the page is destroyed.
+    /// Detach event
     /// </summary>
-    ///<param name="bindable">input entry</param>
-    protected override void OnDetachingFrom(EditText bindable)
+    /// <param name="bindable">Bindable.</param>
+    protected override void OnDetachingFrom(UITextField bindable)
     {
-        bindable.TextChanged -= OnEntryTextChanged;
-        base.OnDetachingFrom(bindable);
+        bindable.EditingChanged -= Bindable_TextChanged;
     }
 
-    private void OnEntryTextChanged(object sender, TextChangedEventArgs args)
+    /// <summary>
+    /// Apply mask
+    /// </summary>
+    /// <param name="sender">Sender.</param>
+    /// <param name="e">E.</param>
+    void Bindable_TextChanged(object sender, EventArgs e)
     {
-        var entry = sender as EditText;
-        if (!string.IsNullOrWhiteSpace(args.Text) && entry != null)
+        var textField = sender as UITextField;
+
+        // only apply change if typing forward
+        if (textField != null && textField.Text.Length > _previousText.Length)
         {
-            // only add behavior if we are moving forward
-            if (args.BeforeCount < args.AfterCount) return;
-            
-            var value = args.Text;
-
-            if (value.Length == 2)
+            if (textField.Text.Length == 1)
             {
-                entry.Text += "/";
+                // we have our first number, add the ( behind it
+                textField.Text = $"({textField.Text}";
+            }
+            if (textField.Text.Length == 4)
+            {
+                // finish the area code
+                textField.Text += ") ";
+            }
+            if (textField.Text.Length == 9)
+            {
+                // add dash
+                textField.Text += "-";
             }
         }
+        _previousText = textField.Text;
     }
 }
 ```
 
 2. Attach Behavior in lifecycle
 
-**MainActivity.cs**
+**MyViewController.cs**
 ``` csharp
 using NativeBehaviors; // needed for extension method
 ...
-private EditTextMonthYearMaskBehavior _monthYearBehavior;
+private TextFieldPhoneMaskBehavior _phoneMaskBehavior;
 
-protected override void OnCreate(Bundle savedInstanceState)
+protected override void ViewWillAppear(bool animated)
 {
     ...
-    _monthYearBehavior = new EditTextMonthYearMaskBehavior();
-    myEditText.AttachBehavior(_monthYearBehavior);
+    _phoneMaskBehavior = new TextFieldPhoneMaskBehavior();
+    myTextField.AttachBehavior(_phoneMaskBehavior);
     ...
 }
 ...
@@ -87,16 +101,16 @@ protected override void OnCreate(Bundle savedInstanceState)
 ``` csharp
 using NativeBehaviors; // needed for extension method
 ...
-protected override void OnDestroy()
+protected override void ViewDidDisappear()
 {
     ...
-    myEditText.DetachBehavior(_monthYearBehavior);
+    myTextField.DetachBehavior(_phoneMaskBehavior);
     ...
 }
 ...
 ```
 
-Use the `ViewWillAppeaer` and `ViewDidDisappear` events in your iOS ViewControllers.
+Use the `ViewWillAppear` and `ViewDidDisappear` events in your iOS ViewControllers.
 
 ## TODO
 Add example project and screenshots
