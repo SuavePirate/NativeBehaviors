@@ -96,7 +96,7 @@ protected override void OnDestroy()
 ...
 ```
 
-Use the `ViewDidLoad` and `ViewDidUnload` events in your iOS ViewControllers.
+Use the `ViewWillAppeaer` and `ViewDidDisappear` events in your iOS ViewControllers.
 
 ## TODO
 Add example project and screenshots
