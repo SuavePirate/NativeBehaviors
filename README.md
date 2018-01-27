@@ -97,7 +97,7 @@ protected override void ViewWillAppear(bool animated)
 
 3. Detach Behavior in lifecycle
 
-**MainActivity.cs**
+**MyViewController.cs**
 ``` csharp
 using NativeBehaviors; // needed for extension method
 ...
@@ -110,7 +110,8 @@ protected override void ViewDidDisappear()
 ...
 ```
 
-Use the `ViewWillAppear` and `ViewDidDisappear` events in your iOS ViewControllers.
+Use the `OnCreate` and `OnDestroy` events in your Android Activities.
+
 
 ## TODO
 Add example project and screenshots
